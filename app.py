@@ -149,7 +149,7 @@ def receive_message():
                     reply_message(recipient_id, response_sent_nontext)
     return "Message Processed"
 
-def verify_fb_token(token_snet):
+def verify_fb_token(token_sent):
     if token_sent == verify_token:
         return request.args.get("hub.challenge")
     else:
