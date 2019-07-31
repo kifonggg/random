@@ -121,9 +121,9 @@ class coolbot():
 #===========================================================================================================================================================================
 app = Flask(__name__)
 
-acc = os.environ.get('WPTOKEN')
-sec = os.environ.get('WPSEC')
-verify_token = os.environ.get('WPVERIFY')
+acc = os.environ['acc']
+sec = os.environ['sec']
+verify_token = os.environ['verify_token']
 bot = coolbot(acc, sec)
 
 @app.route("/", methods=['GET', 'POST'])
