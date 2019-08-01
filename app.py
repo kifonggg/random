@@ -144,11 +144,11 @@ def receive_message():
                     recipient_id = message['sender']['id']
                 if message['message'].get('text'):
                     response_sent_text = get_message()
-                    reply_message(recipient_id, response_sent_text)
+                    reply_message(recipient_id, 'Hi, I finally can reply you!!')
                 #if user sends us a GIF, photo,video, or any other non-text item
                 if message['message'].get('attachments'):
                     response_sent_nontext = get_message()
-                    reply_message(recipient_id, response_sent_nontext)
+                    reply_message(recipient_id, 'Hi, I finally can reply you!!')
     return "Message Processed"
 
 def verify_fb_token(token_sent):
@@ -158,7 +158,7 @@ def verify_fb_token(token_sent):
         return 'Invalid verification token'
 
 def reply_message(recipient_id, content):
-    bot.send_text_message(recipient_id = recipient_id, message = 'Hi, I finally can reply you!!', message_type = 'message')
+    bot.send_text_message(recipient_id = recipient_id, message = content, message_type = 'message')
     return "success"
 
 if __name__ == "__main__":
