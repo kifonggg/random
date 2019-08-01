@@ -134,7 +134,9 @@ def receive_message():
         return verify_fb_token(token_sent)
     else:
         output = request.get_json()
+        print(output)
         for event in output['entry']:
+            print(event)
             messaging = event['messaging']
             for message in messaging:
                 if message.get('message'):
