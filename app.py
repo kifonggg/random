@@ -1,4 +1,4 @@
-from chatbot_functions import coolbot
+from chatbot_functions import coolbot 
 import requests
 import os
 from flask import Flask, request
@@ -32,22 +32,23 @@ def webhook():
     log(data)
 
     if data['object'] == 'page':
-        for messaging_event in entry['messaging']:
-            if messaging_event.get('message'):
-                sender_id = messaging_event['sender']['id']
-                message_text = messaging_event['message']['text']
+        for entry in data['entry']:
+            for messaging_event in entry['messaging']:
+                if messaging_event.get('message'):
+                    sender_id = messaging_event['sender']['id']
+                    message_text = messaging_event['message']['text']
 
-                send_result = reply_message(recipient_id = sender_id, content = 'Hello World!', message_type = 'message')
-                log(send_result)
+                    send_result = reply_message(recipient_id = sender_id, content = 'Hello World!', message_type = 'message')
+                    log(send_result)
 
-            if (messaging_event.get('mentions')) & (messaging_event['mentions']['id'] == bot_user_id) :
-                sender_id = messaging_event['sender']['id']
-                thread_id = messaging_event['thread']['id']
-                message_text = messaging_event['message']['text']
-                user_info = bot.get_user_info('sender_id', ['name'])
+                if (messaging_event.get('mentions')) & (messaging_event['mentions']['id'] == bot_user_id) :
+                    sender_id = messaging_event['sender']['id']
+                    thread_id = messaging_event['thread']['id']
+                    message_text = messaging_event['message']['text']
+                    user_info = bot.get_user_info('sender_id', ['name'])
 
-                send_result = reply_message(recipient_id = thread_id, content = '@{} , can you calling me?'.format(user_info['name']), message_type = 'thread')                
-                log(send_result)
+                    send_result = reply_message(recipient_id = thread_id, content = '@{} , can you calling me?'.format(user_info['name']), message_type = 'thread')                
+                    log(send_result)
 
 def reply_message(recipient_id, content, message_type):
     log('sending message to {recipient}: {text}'.format(recipient=recipient_id, text=content))
