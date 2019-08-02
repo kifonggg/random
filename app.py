@@ -52,10 +52,14 @@ def webhook():
                     send_result = reply_message(recipient_id = sender_id, content = 'Hello World!as;dmjc!!', message_type = 'message')
                     log(send_result)
 
+    return "Done"
+
             
 def reply_message(recipient_id, content, message_type):
     log('sending message to {recipient}: {text}'.format(recipient=recipient_id, text=content))
     bot.send_text_message(recipient_id = recipient_id, message = content, message_type = message_type)
+
+    return "Done"
     
 
 def log(msg, *args, **kwargs):  # simple wrapper for logging to stdout on heroku
@@ -68,6 +72,7 @@ def log(msg, *args, **kwargs):  # simple wrapper for logging to stdout on heroku
     except UnicodeEncodeError:
         pass  # squash logging errors in case of non-ascii text
     sys.stdout.flush()
+    return "Done"
 
 
 
