@@ -124,15 +124,11 @@ class coolbot():
         params = {}
         if fields is not None and isinstance(fields, (list, tuple)):
             params['fields'] = ",".join(fields)
-            print(params)
 
         params.update(self.query_string())
-        print(params)
 
         request_endpoint = '{0}/{1}'.format(self.graph_url, recipient_id)
-        print(request_endpoint)
         response = requests.get(request_endpoint, params=params)
-        print(response)
         if response.status_code == 200:
             return response.json()
 
