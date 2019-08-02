@@ -1,4 +1,4 @@
-import chatbot_functions
+from chatbot_functions import coolbot
 import requests
 import os
 from flask import Flask, request
