@@ -34,25 +34,28 @@ def webhook():
     if data['object'] == 'page':
         for entry in data['entry']:
             for messaging_event in entry['messaging']:
-                if messaging_event.get('message'):
+                if messaging_event.get('mentions'):
+                    for mentions_list in messaging_event['mentions']:
+                        
+                        if mentions_list['id'] == bot_user_id:
+                            sender_id = messaging_event['sender']['id']
+                            thread_id = messaging_event['thread']['id']
+                            message_text = messaging_event['message']['text']
+                            user_info = bot.get_user_info(sender_id, ['name'])
+
+                            send_result = reply_message(recipient_id = thread_id, content = 'Hi {} , can you calling me?'.format(user_info['name']), message_type = 'thread')                
+                            log(send_result)
+                else:
                     sender_id = messaging_event['sender']['id']
                     message_text = messaging_event['message']['text']
 
-                    send_result = reply_message(recipient_id = sender_id, content = 'Hello World!', message_type = 'message')
+                    send_result = reply_message(recipient_id = sender_id, content = 'Hello World!as;dmjc!!', message_type = 'message')
                     log(send_result)
 
-                if (messaging_event.get('mentions')) & (messaging_event['mentions']['id'] == bot_user_id) :
-                    sender_id = messaging_event['sender']['id']
-                    thread_id = messaging_event['thread']['id']
-                    message_text = messaging_event['message']['text']
-                    user_info = bot.get_user_info('sender_id', ['name'])
-
-                    send_result = reply_message(recipient_id = thread_id, content = '@{} , can you calling me?'.format(user_info['name']), message_type = 'thread')                
-                    log(send_result)
-
+            
 def reply_message(recipient_id, content, message_type):
     log('sending message to {recipient}: {text}'.format(recipient=recipient_id, text=content))
-    bot.send_text_message(recipient_id = recipient_id, message = content, message_type = 'message')
+    bot.send_text_message(recipient_id = recipient_id, message = content, message_type = message_type)
     
 
 def log(msg, *args, **kwargs):  # simple wrapper for logging to stdout on heroku
