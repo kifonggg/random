@@ -13,8 +13,10 @@ class Professor_X(object):
 	def memory_brain(self):
 
 		global my_memory
-		if any(my_memory in i for i in ['Metrics Value', 'Metrics Definition', 'Subscription Setting']):
-			my_memory = my_memory
+		try:
+			my_memory
+			if any(my_memory in i for i in ['Metrics Value', 'Metrics Definition', 'Subscription Setting']):
+				my_memory = my_memory
 
 		if any(self.text in i for i in ['Metrics Value', 'Metrics Definition', 'Subscription Setting']):
 			my_memory = self.text
