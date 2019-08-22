@@ -18,6 +18,9 @@ class Professor_X(object):
 			if any(my_memory in i for i in ['Metrics Value', 'Metrics Definition', 'Subscription Setting']):
 				my_memory = my_memory
 
+		except NameError:
+    		my_memory = None
+
 		if any(self.text in i for i in ['Metrics Value', 'Metrics Definition', 'Subscription Setting']):
 			my_memory = self.text
 		elif process.extractOne(self.text, initial_word, scorer = fuzz.ratio)[1] >= 80:
