@@ -6,70 +6,78 @@ from fuzzywuzzy import fuzz, process
 
 
 class Professor_X(object):
-	def __init__(self, message_text):
-		self.text = message_text
-		self.initial_word = ['hi', 'hello', 'hey', 'help', 'get started']
-		
-	def memory_brain(self):
+    def __init__(self, message_text):
+        self.text = message_text
+        self.initial_word = ['hi', 'hello', 'hey', 'help', 'get started']
+        
+    
+    def memory_brain(self):
+        
+        # check initial memory
+        file_r = open('memory_file.txt', 'r')
+        my_memory = file_r.read()
+        
+        if process.extractOne(self.text, self.initial_word, scorer = fuzz.ratio)[1] >= 80:
+            file_w = open('memory_file.txt', 'w')
+            file_w.write('')
+            file_w.close()
+        elif any(self.text in i for i in ['Metrics Value', 'Metrics Definition', 'Subscription Setting']):
+            file_w = open('memory_file.txt', 'w')
+            file_w.write(self.text)
+            file_w.close()
+        elif any(my_memory in i for i in ['Metrics Value', 'Metrics Definition', 'Subscription Setting']):
+            pass
+        else:
+            file_w = open('memory_file.txt', 'w')
+            file_w.write('')
+            file_w.close()
+            
+        file_r = open('memory_file.txt', 'r')
+        my_memory = file_r.read()
 
-		global my_memory
-		try:
-			my_memory
-			if any(my_memory in i for i in ['Metrics Value', 'Metrics Definition', 'Subscription Setting']):
-				my_memory = my_memory
+        return my_memory
 
-		except NameError:
-    			my_memory = None
+    def get_reply(self):
+        memory = self.memory_brain()
+        print('the current memory:' + memory)
+    
+        #clean_text = process.extractOne(self.text, initial_word, scorer = fuzz.ratio)[0]
 
-		if any(self.text in i for i in ['Metrics Value', 'Metrics Definition', 'Subscription Setting']):
-			my_memory = self.text
-		elif process.extractOne(self.text, self.initial_word, scorer = fuzz.ratio)[1] >= 80:
-			my_memory = None
-		else:
-			my_memory = None
+        if memory == 'Metrics Value':
+            #reply_message = Metrics_Doctor(self.text).get_reply_message()
+            reply_message = {
+                'message_format': 'text',
+                'text': 'Hey I know you are asking me about Definition'
+            }
 
-		return my_memory
+        elif memory == 'Metrics Definition':
+            #reply_message = Definition_Doctor(self.text).get_reply_message()
+            reply_message = {
+                    'message_format': 'text',
+                    'text': 'Hey I know you are asking me about Definition'
+            }
 
-	def get_reply(self):
-		print(self.memory_brain())
-		
-		#clean_text = process.extractOne(self.text, initial_word, scorer = fuzz.ratio)[0]
-
-		if self.memory_brain() == 'Metrics Value':
-			#reply_message = Metrics_Doctor(self.text).get_reply_message()
-			reply_message = {
-					'message_format': 'text',
-					'text': 'Hey I know you are asking me about Definition'
-			}
-
-		elif self.memory_brain() == 'Metrics Definition':
-			#reply_message = Definition_Doctor(self.text).get_reply_message()
-			reply_message = {
-					'message_format': 'text',
-					'text': 'Hey I know you are asking me about Definition'
-			}
-
-		elif self.memory_brain() == 'Subscription Setting':
-			#reply_message = Subscription_Doctor(self.text).get_reply_message()
-			reply_message = {
-					'message_format': 'text',
-					'text': 'Hey I know you are asking me about Subscription'
-			}
-
-
-		elif self.memory_brain() == None:
-			# reply intial button message
-			button_type = ['postback', 'postback', 'postback']
-			button_title = ['Metrics Value', 'Metrics Definition', 'Subscription Setting']
-			button_payload = ['Metrics Value', 'Metrics Definition', 'Subscription Setting']
-			button_text = 'Hi, what would you like to get from me?'
-			reply_message = {
-					'message_format': 'button',
-					'type': button_type,
-					'title': button_title,
-					'payload': button_payload,
-					'text': button_text
-			}
+        elif memory == 'Subscription Setting':
+            #reply_message = Subscription_Doctor(self.text).get_reply_message()
+            reply_message = {
+                    'message_format': 'text',
+                    'text': 'Hey I know you are asking me about Subscription'
+            }
 
 
-		return reply_message
+        elif memory == '':
+            # reply intial button message
+            button_type = ['postback', 'postback', 'postback']
+            button_title = ['Metrics Value', 'Metrics Definition', 'Subscription Setting']
+            button_payload = ['Metrics Value', 'Metrics Definition', 'Subscription Setting']
+            button_text = 'Hi, what would you like to get from me?'
+            reply_message = {
+                    'message_format': 'button',
+                    'type': button_type,
+                    'title': button_title,
+                    'payload': button_payload,
+                    'text': button_text
+            }
+
+
+        return reply_message
