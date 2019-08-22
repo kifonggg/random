@@ -47,8 +47,12 @@ def webhook():
                             log(send_result)
                 elif not(messaging_event.get('thread')):
                     sender_id = messaging_event['sender']['id']
-                    message_text = messaging_event['message']['text']
-
+                    
+                    if messaging_event.get('message'):
+                        message_text = messaging_event['message']['text']
+                    elif messaging_event.get('postback'):
+                        message_text = messaging_event['postback']['payload']
+                        
                     button_type = ['postback', 'postback', 'postback']
                     button_title = ['Metrics Value', 'Metrics Definition', 'Subscription Setting']
                     button_payload = ['Metrics Value', 'Metrics Definition', 'Subscription Setting']
