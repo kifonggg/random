@@ -19,7 +19,7 @@ class Professor_X(object):
 				my_memory = my_memory
 
 		except NameError:
-    		my_memory = None
+    			my_memory = None
 
 		if any(self.text in i for i in ['Metrics Value', 'Metrics Definition', 'Subscription Setting']):
 			my_memory = self.text
