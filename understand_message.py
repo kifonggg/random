@@ -8,7 +8,7 @@ from fuzzywuzzy import fuzz, process
 class Professor_X(object):
 	def __init__(self, message_text):
 		self.text = message_text
-		initial_word = ['hi', 'hello', 'hey', 'help', 'get started']
+		self.initial_word = ['hi', 'hello', 'hey', 'help', 'get started']
 		
 	def memory_brain(self):
 
@@ -23,7 +23,7 @@ class Professor_X(object):
 
 		if any(self.text in i for i in ['Metrics Value', 'Metrics Definition', 'Subscription Setting']):
 			my_memory = self.text
-		elif process.extractOne(self.text, initial_word, scorer = fuzz.ratio)[1] >= 80:
+		elif process.extractOne(self.text, self.initial_word, scorer = fuzz.ratio)[1] >= 80:
 			my_memory = None
 		else:
 			my_memory = None
