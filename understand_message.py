@@ -12,13 +12,17 @@ class Professor_X(object):
         
     
     def memory_brain(self):
-        file_ = open('memory_file.txt', 'w')
-        file_.close()
         
         # check initial memory
-        file_r = open('memory_file.txt', 'r')
-        my_memory = file_r.read()
-        
+        try:
+            file_r = open('memory_file.txt', 'r')
+            my_memory = file_r.read()
+        except:
+            file_ = open('memory_file.txt', 'w')
+            file_.close()
+            file_r = open('memory_file.txt', 'r')
+            my_memory = file_r.read()
+             
         if process.extractOne(self.text, self.initial_word, scorer = fuzz.ratio)[1] >= 80:
             file_w = open('memory_file.txt', 'w')
             file_w.write('')
