@@ -44,7 +44,7 @@ def webhook():
                             user_info = bot.get_user_info(sender_id, ['name'])
 
                             send_result = reply_message(recipient_id = thread_id, content = 'Hi {} , can you calling me?'.format(user_info['name']), message_type = 'thread')                
-                            log(send_result)
+                            log('send_result: {}'.format(send_result))
                 elif not(messaging_event.get('thread')):
                     sender_id = messaging_event['sender']['id']
                     
@@ -52,21 +52,12 @@ def webhook():
                         message_text = messaging_event['message']['text']
                     elif messaging_event.get('postback'):
                         message_text = messaging_event['postback']['payload']
-                        
-                    button_type = ['postback', 'postback', 'postback']
-                    button_title = ['Metrics Value', 'Metrics Definition', 'Subscription Setting']
-                    button_payload = ['Metrics Value', 'Metrics Definition', 'Subscription Setting']
-                    button_text = 'Hi, what would you like to get from me?'
-                    reply_json = {
-                            'message_format': 'button',
-                            'type': button_type,
-                            'title': button_title,
-                            'payload': button_payload,
-                            'text': button_text
-                    }
+                       
+                    PX = Professor_X(message_text)
+                    reply_json = PX.get_reply()
 
                     send_result = reply_message(recipient_id = sender_id, content = reply_json, message_type = 'message')
-                    log(send_result)
+                    log('send_result: {}'.format(send_result))
 
     return "Done"
 
