@@ -12,7 +12,8 @@ class Professor_X(object):
         
     
     def memory_brain(self):
-        
+        file = open('memory_file.txt', 'w')
+    	file.close()
         # check initial memory
         file_r = open('memory_file.txt', 'r')
         my_memory = file_r.read()
