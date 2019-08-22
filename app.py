@@ -53,7 +53,7 @@ def webhook():
                     button_title = ['Metrics Value', 'Metrics Definition', 'Subscription Setting']
                     button_payload = ['Metrics Value', 'Metrics Definition', 'Subscription Setting']
                     button_text = 'Hi, what would you like to get from me?'
-                    reply_message = {
+                    reply_json = {
                             'message_format': 'button',
                             'type': button_type,
                             'title': button_title,
@@ -61,7 +61,7 @@ def webhook():
                             'text': button_text
                     }
 
-                    send_result = reply_message(recipient_id = sender_id, content = reply_message, message_type = 'message')
+                    send_result = reply_message(recipient_id = sender_id, content = reply_json, message_type = 'message')
                     log(send_result)
 
     return "Done"
