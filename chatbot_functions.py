@@ -60,6 +60,44 @@ class coolbot():
 
         return self.send_message(recipient_id, {'text': message}, message_type)
 
+
+    def send_button_message(self, recipient_id, message, button_type, button_titles, payload, message_type):
+        button_payload = []
+        for i in range(len(button_type)):
+            temp = {'type': button_type[i],
+                    'title': button_titles[i],
+                    'payload': payload[i]}
+            button_payload.append(temp)
+
+        message_json = {
+            'attachment': {
+                    'type': 'template',
+                    'payload': {
+                            'template_type': 'button',
+                            'text': message,
+                            'buttons': button_payload
+                    }
+            }
+        }
+        return self.send_message(recipient_id, message_json, message_type)
+
+
+    def send_quick_reply_message(self, recipient_id, message, content_type, reply_titles, payload, message_type):
+        reply_payload = []
+        for i in range(len(content_type)):
+            temp = {'content_type': content_type[i],
+                    'title': reply_titles[i],
+                    'payload': payload[i]}
+            reply_payload.append(temp)
+
+        message_json = {
+                    'text': message,
+                    'quick_replies': reply_payload
+        }
+        return self.send_message(recipient_id, message_json, message_type)
+
+
+
     def send_attachement(self, recipient_id, attachement_type, attachment_path, message_type):
         result = []
         if type(recipient_id) == str:
