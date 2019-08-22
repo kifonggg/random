@@ -6,6 +6,9 @@ import json
 import sys
 from datetime import datetime
 
+from understand_message import Professor_X
+
+
 app = Flask(__name__)
 
 acc = os.environ['acc']
