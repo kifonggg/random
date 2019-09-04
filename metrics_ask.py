@@ -201,7 +201,7 @@ class Metrics_Doctor(object):
                 for i in range(len(parameters)):
                     parameters_clean[self.json_key[i]] = parameters[i].strip()
                 file_w = open('metrics_doctor.txt', 'w')
-                file_w.write('')
+                file_w.write(self.dafault_memory)
                 file_w.close()
 
                 return {
@@ -234,7 +234,7 @@ class Metrics_Doctor(object):
                     return self.ask_for_more_parameter(next_ask, metrics_doctor_memory, count_more_time)
         except: 
             file_w = open('metrics_doctor.txt', 'w')
-            file_w.write('')
+            file_w.write(self.dafault_memory)
             file_w.close()
             return self.error_message
 
