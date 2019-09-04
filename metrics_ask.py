@@ -233,6 +233,9 @@ class Metrics_Doctor(object):
                     print(metrics_doctor_memory)
                     return self.ask_for_more_parameter(next_ask, metrics_doctor_memory, count_more_time)
         except: 
+            file_w = open('metrics_doctor.txt', 'w')
+            file_w.write('')
+            file_w.close()
             return self.error_message
 
 
