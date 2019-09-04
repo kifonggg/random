@@ -1,6 +1,6 @@
 
 from fuzzywuzzy import fuzz, process
-#from metrics_ask import Metrics_Doctor
+from metrics_ask import Metrics_Doctor
 #from definition_ask import Definition_Doctor
 #from subscription_ask import Subscription_Doctor
 
