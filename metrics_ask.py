@@ -24,11 +24,19 @@ class Metrics_Doctor(object):
                             "Select a country:"
         }
 
-        self.temp_result_message = {
-                  'message_format': 'text',
-                    'text': 'Here you are: {}'
-
+        self.error_message = {
+                  'message_format': 'quick_reply',
+                  'type': ['text']*len(self.country_options),
+                  'title': self.country_options,
+                  'payload': ['Country: ' + self.country_options[i] for i in range(len(self.country_options))],
+                  'text':  '''Sorry, I don't understand this. Please follow the flow below or say "Hi" to restart the process.\n'''+
+                            "Please provide me with more details in the following format:\n" + 
+                            "<Country>, <City>, <Business Group>, <Business Group Breakdown>, <Metrics>, <Date Level>, <Date>\n"+
+                            "Example: Singapore, All cities, Vertical, All Verticals, GMV (USD), Daily, 2019-09-01 \n\n"
+                            "You may also follow the options below if you don't know what to input.\n"+
+                            "Select a country:"
         }
+
 
         self.json_key = ['Country', 'City', 'Business Group', 'Business Group Breakdown', 'Metrics', 'Date Level', 'Date']
 
@@ -53,7 +61,7 @@ class Metrics_Doctor(object):
 
 
 
-    def ask_for_more_parameter(self,parameter, last_memory, more_count):
+    def ask_for_more_parameter(self, parameter, last_memory, more_count):
 
         if parameter == 'Date':
             new_message = {
@@ -75,7 +83,19 @@ class Metrics_Doctor(object):
                     print(current_memory[j])
                     new_mix = new_mix[new_mix[j] == current_memory[j]]
 
+
             new_options = ['Back'] + sorted(list(new_mix[parameter].unique()))
+
+            if new_options == ['Back']:
+                new_message = {
+                      'message_format': 'quick_reply',
+                      'type': ['text']*len(new_options),
+                      'title': new_options,
+                      'payload': [parameter + ': ' + new_options[i] for i in range(len(new_options))],
+                      'text': 'The current selected combination is: *{}*\n'.format(last_memory)+
+                              'There might be some wrong with your input.\n'+
+                              'Please select "Back" to the previous selections.'
+                }
             print(new_options)
 
 
@@ -94,8 +114,8 @@ class Metrics_Doctor(object):
                   'type': ['text']*len(new_options),
                   'title': new_options,
                   'payload': [parameter + ': ' + new_options[i] for i in range(len(new_options))],
-                  'text': 'You have selected {}\n'.format(last_memory)+
-                          'Next, please select a '+parameter.lower()
+                  'text': 'The current selected combination is: *{}*\n'.format(last_memory)+
+                          'Next, please select a *{}*'+parameter
             }
 
         return new_message
@@ -162,43 +182,45 @@ class Metrics_Doctor(object):
 
 
     def get_reply_message(self):
+        try:
 
-        metrics_doctor_memory = self.memory_manager()
-        print(metrics_doctor_memory)
-      # If users input the complete command or construted the command
-        if (len(metrics_doctor_memory.split(',')) == 7) and ((metrics_doctor_memory.find('<') < 0) or (metrics_doctor_memory.find('>') < 0)):
-            parameters = metrics_doctor_memory.split(',')
-            parameters_clean = {}
-            for i in range(len(parameters)):
-                parameters_clean[self.json_key[i]] = parameters[i].strip()
-            return {
-              'message_format': 'text',
-              'text': 'Your had selected {}\n'.format(metrics_doctor_memory) + 
-                      'Here is your metrics: {}'.format(100000)
-            }#self.execute_sql(parameters_clean)
+            metrics_doctor_memory = self.memory_manager()
+            print(metrics_doctor_memory)
+          # If users input the complete command or construted the command
+            if (len(metrics_doctor_memory.split(',')) == 7) and ((metrics_doctor_memory.find('<') < 0) or (metrics_doctor_memory.find('>') < 0)):
+                parameters = metrics_doctor_memory.split(',')
+                parameters_clean = {}
+                for i in range(len(parameters)):
+                    parameters_clean[self.json_key[i]] = parameters[i].strip()
+                return {
+                  'message_format': 'text',
+                  'text': 'Your had selected {}\n'.format(metrics_doctor_memory) + 
+                          'Here is your metrics: {}'.format(100000)
+                }#self.execute_sql(parameters_clean)
 
-        elif metrics_doctor_memory.strip() == self.dafault_memory:
-            return self.initial_message
-            
-        else:
-            if metrics_doctor_memory.find('More') > 0:
-                print('Show More Options')
-                count_more_time = metrics_doctor_memory.count('.')
-                next_ask = metrics_doctor_memory.split('|')[1].split(':')[0].strip()
-                file_w = open('metrics_doctor.txt', 'w')
-                file_w.write(metrics_doctor_memory.replace('|City: More','').replace('.',''))
-                file_w.close()
-                print(next_ask)
-                print(count_more_time)
-                print(metrics_doctor_memory)
-                return self.ask_for_more_parameter(next_ask, metrics_doctor_memory, count_more_time)
+            elif metrics_doctor_memory.strip() == self.dafault_memory:
+                return self.initial_message
+                
             else:
-                next_ask = metrics_doctor_memory[metrics_doctor_memory.find('<')+1: metrics_doctor_memory.find('>')]
-                count_more_time = metrics_doctor_memory.count('.')
-                print(next_ask)
-                print(count_more_time)
-                print(metrics_doctor_memory)
-                return self.ask_for_more_parameter(next_ask, metrics_doctor_memory, count_more_time)
-
+                if metrics_doctor_memory.find('More') > 0:
+                    print('Show More Options')
+                    count_more_time = metrics_doctor_memory.count('.')
+                    next_ask = metrics_doctor_memory.split('|')[1].split(':')[0].strip()
+                    file_w = open('metrics_doctor.txt', 'w')
+                    file_w.write(metrics_doctor_memory.replace('|City: More','').replace('.',''))
+                    file_w.close()
+                    print(next_ask)
+                    print(count_more_time)
+                    print(metrics_doctor_memory)
+                    return self.ask_for_more_parameter(next_ask, metrics_doctor_memory, count_more_time)
+                else:
+                    next_ask = metrics_doctor_memory[metrics_doctor_memory.find('<')+1: metrics_doctor_memory.find('>')]
+                    count_more_time = metrics_doctor_memory.count('.')
+                    print(next_ask)
+                    print(count_more_time)
+                    print(metrics_doctor_memory)
+                    return self.ask_for_more_parameter(prev_select, next_ask, metrics_doctor_memory, count_more_time)
+        except: 
+            return self.error_message
 
 
