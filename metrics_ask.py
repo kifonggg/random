@@ -141,9 +141,15 @@ class Metrics_Doctor(object):
 
         else:
             print('Add more thing')
-            replace_input_from = '<'+self.receive_message.split(':')[0]+'>'
-            replace_input_to = self.receive_message.split(':')[1]
-            new_memory = memory.replace(replace_input_from, replace_input_to)
+
+            try: 
+                replace_input_from = '<'+self.receive_message.split(':')[0]+'>'
+                replace_input_to = self.receive_message.split(':')[1] 
+                new_memory = memory.replace(replace_input_from, replace_input_to)
+            except:
+                replace_input_from = memory[memory.find('<'): memory.find('>')+1]
+                replace_input_to = self.receive_message
+                new_memory = memory.replace(replace_input_from, replace_input_to)
             print(new_memory)
             file_w = open('metrics_doctor.txt', 'w')
             file_w.write(new_memory)
