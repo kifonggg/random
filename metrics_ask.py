@@ -107,15 +107,15 @@ class Metrics_Doctor(object):
             print(new_options)
 
 
-            if len(new_options) >= 12:
+            if len(new_options) >= 7:
                 if more_count == 0:
-                    new_options = new_options[0:12] + ['More..']
+                    new_options = new_options[0:7] + ['More..']
                 else:
                     multiplier = more_count-1
-                    if len(new_options) >= ((12*multiplier)+13) :
-                        new_options = new_options[(12*multiplier) +1: (12*multiplier)+1 + 12] + ['More' + '.'*(more_count+1)]
+                    if len(new_options) >= ((7*multiplier)+7+1) :
+                        new_options = new_options[(7*multiplier) +1: (7*multiplier)+1 + 7] + ['More' + '.'*(more_count+1)]
                     else:
-                        new_options = new_options[(12*multiplier) +1: ]
+                        new_options = new_options[(7*multiplier) +1: ]
 
             new_message = {
                   'message_format': 'quick_reply',
