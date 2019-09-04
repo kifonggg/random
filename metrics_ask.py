@@ -228,6 +228,7 @@ class Metrics_Doctor(object):
                     file_w = open('metrics_doctor.txt', 'w')
                     file_w.write(metrics_doctor_memory.replace('|City: More','').replace('.',''))
                     file_w.close()
+                    metrics_doctor_memory = metrics_doctor_memory.replace('|City: More','').replace('.','')
                     print(next_ask)
                     print(count_more_time)
                     print(metrics_doctor_memory)
