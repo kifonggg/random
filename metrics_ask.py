@@ -204,9 +204,9 @@ class Metrics_Doctor(object):
                 parameters_clean = {}
                 for i in range(len(parameters)):
                     parameters_clean[self.json_key[i]] = parameters[i].strip()
-                file_w = open('metrics_doctor.txt', 'w')
-                file_w.write(self.dafault_memory)
-                file_w.close()
+                #file_w = open('metrics_doctor.txt', 'w')
+                #file_w.write(self.dafault_memory)
+                #file_w.close()
 
                 return {
                   'message_format': 'quick_reply',
