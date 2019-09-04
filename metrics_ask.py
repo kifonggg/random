@@ -219,7 +219,7 @@ class Metrics_Doctor(object):
                     print(next_ask)
                     print(count_more_time)
                     print(metrics_doctor_memory)
-                    return self.ask_for_more_parameter(prev_select, next_ask, metrics_doctor_memory, count_more_time)
+                    return self.ask_for_more_parameter(next_ask, metrics_doctor_memory, count_more_time)
         except: 
             return self.error_message
 
