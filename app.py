@@ -62,7 +62,7 @@ def webhook():
                     elif messaging_event.get('postback'):
                         message_text = messaging_event['postback']['payload']
 
-                    PX = Professor_X(message_text)
+                    PX = Professor_X(message_text.strip())
                     reply_json = PX.get_reply()
 
                     send_result = reply_message(recipient_id = sender_id, content = reply_json, message_type = 'message')
