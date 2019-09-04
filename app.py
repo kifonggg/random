@@ -60,7 +60,7 @@ def webhook():
                         if messaging_event['message'].get('quick_reply'):
                             message_text = messaging_event['message']['quick_reply']['payload']
                     elif messaging_event.get('postback'):
-                        message_payload = messaging_event['postback']['payload']
+                        message_text = messaging_event['postback']['payload']
 
                     PX = Professor_X(message_text)
                     reply_json = PX.get_reply()
