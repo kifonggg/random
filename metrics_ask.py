@@ -94,7 +94,7 @@ class Metrics_Doctor(object):
 
             new_options = ['Back'] + sorted(list(new_mix[parameter].unique()))
 
-            if new_options == ['Back']:
+            if new_options == ['Back']: # Nothing in the combination but only "Back"
                 new_message = {
                       'message_format': 'quick_reply',
                       'type': ['text']*len(new_options),
@@ -113,9 +113,9 @@ class Metrics_Doctor(object):
                 else:
                     multiplier = more_count-1
                     if len(new_options) >= ((7*multiplier)+7+1) :
-                        new_options = new_options[(7*multiplier) +1: (7*multiplier)+1 + 7] + ['More' + '.'*(more_count+1)]
+                        new_options = ['Back'] + new_options[(7*multiplier) +1: (7*multiplier)+1 + 7] + ['More' + '.'*(more_count+1)]
                     else:
-                        new_options = new_options[(7*multiplier) +1: ]
+                        new_options = ['Back'] + new_options[(7*multiplier) +1: ]
 
             new_message = {
                   'message_format': 'quick_reply',
