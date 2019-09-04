@@ -192,10 +192,14 @@ class Metrics_Doctor(object):
                 parameters_clean = {}
                 for i in range(len(parameters)):
                     parameters_clean[self.json_key[i]] = parameters[i].strip()
+                file_w = open('metrics_doctor.txt', 'w')
+                file_w.write('')
+                file_w.close()
+
                 return {
                   'message_format': 'text',
-                  'text': 'Your had selected {}\n'.format(metrics_doctor_memory) + 
-                          'Here is your metrics: {}'.format(100000)
+                  'text': 'Your had selected *{}*\n'.format(metrics_doctor_memory) + 
+                          'Here is your metrics: *{}*'.format(100000)
                 }#self.execute_sql(parameters_clean)
 
             elif metrics_doctor_memory.strip() == self.dafault_memory:
