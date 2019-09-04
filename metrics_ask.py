@@ -115,7 +115,7 @@ class Metrics_Doctor(object):
                   'title': new_options,
                   'payload': [parameter + ': ' + new_options[i] for i in range(len(new_options))],
                   'text': 'The current selected combination is: *{}*\n'.format(last_memory)+
-                          'Next, please select a *{}*'+parameter
+                          'Next, please select a *{}*'.format(parameter)
             }
 
         return new_message
@@ -127,7 +127,7 @@ class Metrics_Doctor(object):
 
         try:
             file_r = open('metrics_doctor.txt', 'r')
-            memory = file_r.read() 
+            memory = file_r.read().strip()
         except:
             file_= open('metrics_doctor.txt', 'w')
             file_.write(self.dafault_memory)
