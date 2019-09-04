@@ -164,7 +164,7 @@ class Metrics_Doctor(object):
                 replace_input_from = memory[ memory.rfind(', ') + 2: ]
                 replace_input_to = '<'+self.json_key[-1]+'>'
             else:
-                replace_input_from = memory[ memory[: memory.find(', <')].rfind(', ')+2 : memory.find(', <')]
+                replace_input_from = memory[ memory[: memory.find(', <')].rfind(', ')+1 : memory.find(', <')]
                 replace_input_to = '<'+self.json_key[self.json_key.index(self.receive_message.split(':')[0].strip())-1]+'>'
             new_memory = memory.replace(replace_input_from, replace_input_to)
             file_w = open('metrics_doctor.txt', 'w')
@@ -176,7 +176,7 @@ class Metrics_Doctor(object):
 
             try: 
                 replace_input_from = '<'+self.receive_message.split(':')[0]+'>'
-                replace_input_to = self.receive_message.split(':')[1] 
+                replace_input_to = self.receive_message.split(':')[1].strip()
                 new_memory = memory.replace(replace_input_from, replace_input_to)
             except:
                 replace_input_from = memory[memory.find('<'): memory.find('>')+1]
