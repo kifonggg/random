@@ -160,8 +160,12 @@ class Metrics_Doctor(object):
         
         elif self.receive_message.find('Back') > 0:
             print('Remove some thing')
-            replace_input_from = memory[ memory[: memory.find(', <')].rfind(', ')+2 : memory.find(', <')]
-            replace_input_to = '<'+self.json_key[self.json_key.index(self.receive_message.split(':')[0].strip())-1]+'>'
+            if self.receive_message.split(':')[0] == 'End':
+                replace_input_from = memory[ memory.rfind(', ') + 2: ]
+                replace_input_to = '<'+self.json_key[-1]+'>'
+            else:
+                replace_input_from = memory[ memory[: memory.find(', <')].rfind(', ')+2 : memory.find(', <')]
+                replace_input_to = '<'+self.json_key[self.json_key.index(self.receive_message.split(':')[0].strip())-1]+'>'
             new_memory = memory.replace(replace_input_from, replace_input_to)
             file_w = open('metrics_doctor.txt', 'w')
             file_w.write(new_memory)
@@ -206,9 +210,9 @@ class Metrics_Doctor(object):
 
                 return {
                   'message_format': 'quick_reply',
-                  'type': ['text', 'text'],
-                  'title': ['Ask again', 'Thank you'],
-                  'payload': ['Ask again', 'Thank you'],
+                  'type': ['text', 'text', 'text'],
+                  'title': ['Back', 'Ask again', 'Thank you'],
+                  'payload': ['End: Back', 'Ask again', 'Thank you'],
                   'text': 'Your had selected *{}*\n'.format(metrics_doctor_memory) + 
                           'Here is your metrics: *{}*'.format(100000)
                 }#self.execute_sql(parameters_clean)
