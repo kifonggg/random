@@ -24,7 +24,11 @@ class Metrics_Doctor(object):
                             "Select a country:"
         }
 
-        
+        self.temp_result_message = {
+                  'message_format': 'text',
+                    'text': 'Here you are: {}'
+
+        }
 
         self.json_key = ['Country', 'City', 'Business Group', 'Business Group Breakdown', 'Metrics', 'Date Level', 'Date']
 
@@ -71,7 +75,7 @@ class Metrics_Doctor(object):
                     print(current_memory[j])
                     new_mix = new_mix[new_mix[j] == current_memory[j]]
 
-            new_options = sorted(list(new_mix[parameter].unique()))
+            new_options = ['Back'] + sorted(list(new_mix[parameter].unique()))
             print(new_options)
 
 
@@ -125,12 +129,21 @@ class Metrics_Doctor(object):
             file_w = open('metrics_doctor.txt', 'w')
             file_w.write(new_memory)
             file_w.close()
-            
+        
+        elif self.receive_message.find('Back') > 0:
+            print('Remove some thing')
+            replace_input_from = memory[memory[: memory.find(', <')].rfind(', ')+2 : memory.find(', <')]
+            replace_input_to = '<'+self.json_key[self.json_key.index(self.receive_message.split(':')[0].strip())-1]+'>'
+            new_memory = memory.replace(replace_input_from, replace_input_to)
+            file_w = open('metrics_doctor.txt', 'w')
+            file_w.write(new_memory)
+            file_w.close()
+
         else:
-            print('Add More thing')
-            new_input_key = self.receive_message.split(':')[0]
-            new_input_value = self.receive_message.split(':')[1]
-            new_memory = memory.replace('<'+new_input_key+'>', new_input_value)
+            print('Add more thing')
+            replace_input_from = '<'+self.receive_message.split(':')[0]+'>'
+            replace_input_to = self.receive_message.split(':')[1]
+            new_memory = memory.replace(replace_input_from, replace_input_to)
             print(new_memory)
             file_w = open('metrics_doctor.txt', 'w')
             file_w.write(new_memory)
@@ -152,9 +165,13 @@ class Metrics_Doctor(object):
             parameters_clean = {}
             for i in range(len(parameters)):
                 parameters_clean[self.json_key[i]] = parameters[i].strip()
-            return 'YES'#self.execute_sql(parameters_clean)
+            return {
+              'message_format': 'text',
+              'text': 'Your had selected {}\n'.format(metrics_doctor_memory) + 
+                      'Here is your metrics: {}'.format(100000)
+            }#self.execute_sql(parameters_clean)
 
-        elif metrics_doctor_memory == self.dafault_memory:
+        elif metrics_doctor_memory.strip() == self.dafault_memory:
             return self.initial_message
             
         else:
