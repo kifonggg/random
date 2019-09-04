@@ -8,7 +8,6 @@ from datetime import datetime
 
 from understand_message import Professor_X
 
-
 app = Flask(__name__)
 
 acc = os.environ['acc']
@@ -46,22 +45,28 @@ def webhook():
                             message_text = messaging_event['message']['text']
                             user_info = bot.get_user_info(sender_id, ['name'])
 
-                            send_result = reply_message(recipient_id = thread_id, content = 'Hi {} , can you calling me?'.format(user_info['name']), message_type = 'thread')                
+                            #PX = Professor_X(message_text)
+                            memory = 0 
+                            #reply_json = PX.get_reply()
+
+
+                            send_result = reply_message(recipient_id = thread_id, content = reply_json, message_type = 'thread')                
                             log('send_result: {}'.format(send_result))
                 elif not(messaging_event.get('thread')):
                     sender_id = messaging_event['sender']['id']
-                    
+
                     if messaging_event.get('message'):
                         message_text = messaging_event['message']['text']
+                        if messaging_event['message'].get('quick_reply'):
+                            message_text = messaging_event['message']['quick_reply']['payload']
                     elif messaging_event.get('postback'):
-                        message_text = messaging_event['postback']['payload']
-                       
+                        message_payload = messaging_event['postback']['payload']
+
                     PX = Professor_X(message_text)
                     reply_json = PX.get_reply()
 
                     send_result = reply_message(recipient_id = sender_id, content = reply_json, message_type = 'message')
                     log('send_result: {}'.format(send_result))
-
     return "Done"
 
             
