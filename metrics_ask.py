@@ -71,8 +71,8 @@ class Metrics_Doctor(object):
 
             new_message = {
               'message_format': 'quick_reply',
-              'type': ['text']*len(date_options)
-              'title': date_options
+              'type': ['text']*len(date_options),
+              'title': date_options,
               'payload': [parameter + ': ' + date_options[i] for i in range(len(date_options))],
               'text': 'You have selected *{}*\n'.format(last_memory)+
                       'Next, please select a *Date* in YYYY-MM-DD format (Eg. 2019-07-20).'
