@@ -1,6 +1,7 @@
 import pandas as pd
 from fuzzywuzzy import fuzz, process
 import os
+from datetime import datetime, timedelta
 
 class Metrics_Doctor(object):
 
@@ -64,10 +65,17 @@ class Metrics_Doctor(object):
     def ask_for_more_parameter(self, parameter, last_memory, more_count):
 
         if parameter == 'Date':
+            date_options = ['Back']
+            for i in range(5):
+                date_options.append((datetime.today() - timedelta(1+i)).strftime("%Y-%m-%d"))
+
             new_message = {
-              'message_format': 'text',
-              'text': 'You have selected {}\n'.format(last_memory)+
-                      'Next, please select a date in YYYY-MM-DD format (Eg. 2019-07-20).'
+              'message_format': 'quick_reply',
+              'type': ['text']*len(date_options)
+              'title': date_options
+              'payload': [parameter + ': ' + date_options[i] for i in range(len(date_options))],
+              'text': 'You have selected *{}*\n'.format(last_memory)+
+                      'Next, please select a *Date* in YYYY-MM-DD format (Eg. 2019-07-20).'
             }
 
         else:
@@ -127,7 +135,7 @@ class Metrics_Doctor(object):
 
         try:
             file_r = open('metrics_doctor.txt', 'r')
-            memory = file_r.read().strip()
+            memory = file_r.read()
         except:
             file_= open('metrics_doctor.txt', 'w')
             file_.write(self.dafault_memory)
@@ -177,7 +185,7 @@ class Metrics_Doctor(object):
 
         file_r = open('metrics_doctor.txt', 'r')
         memory = file_r.read() 
-        return memory
+        return memory.strip()
 
 
 
