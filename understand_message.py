@@ -79,7 +79,7 @@ class Professor_X(object):
         elif memory == 'end':
             reply_message = {
                     'message_format': 'text',
-                    'text': 'Thank you for looking for me. Just Say "Hi" to me when you need help.'+
+                    'text': 'Thank you for looking for me. Just Say "Hi" to me when you need help.\n'+
                             'Hope to see you again. =)'
             }
 
