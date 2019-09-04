@@ -34,11 +34,11 @@ class Professor_X(object):
             file_w = open('memory_file.txt', 'w')
             file_w.write('end')
             file_w.close()
-        elif any(self.text in i for i in ['Metrics Value', 'Metrics Definition', 'Subscription Setting']):
+        elif self.text in ['Metrics Value', 'Metrics Definition', 'Subscription Setting']:
             file_w = open('memory_file.txt', 'w')
             file_w.write(self.text)
             file_w.close()
-        elif any(my_memory in i for i in ['Metrics Value', 'Metrics Definition', 'Subscription Setting']):
+        elif my_memory in ['Metrics Value', 'Metrics Definition', 'Subscription Setting']:
             pass
         else:
             file_w = open('memory_file.txt', 'w')
