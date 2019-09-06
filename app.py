@@ -23,8 +23,10 @@ def vertify_token():
         if not request.args.get('hub.verify_token') == verify_token:
             return 'Verification token mismatch', 403
         return request.args['hub.challenge'], 200
-
-    return 'Hello world', 200
+    res = "request.args.get('hub.mode'): " + str(request.args.get('hub.mode')) + '\n'
+            "request.args.get('hub.challenge'): " + str(request.args.get('hub.challenge')) + '\n'
+            "request.args.get('hub.verify_token'): " + str(request.args.get('hub.verify_token')) + '\n'
+    return res, 200
 
 
 @app.route('/', methods = ['POST'])
