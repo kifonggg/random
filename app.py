@@ -19,6 +19,7 @@ bot_user_id = '466965580757797'
 
 @app.route('/', methods = ['GET'])
 def vertify_token():
+    print('request: ' + str(request))
     if request.args.get('hub.mode') == 'subscribe' and request.args.get('hub.challenge'):
         if not request.args.get('hub.verify_token') == verify_token:
             return 'Verification token mismatch', 403
@@ -32,6 +33,7 @@ def webhook():
 
     data = request.get_json()
     log(data)
+    print('data: ' + str(data))
 
     if data['object'] == 'page':
         for entry in data['entry']:
