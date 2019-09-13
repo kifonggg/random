@@ -34,8 +34,8 @@ def webhook():
     log(data)
     print('request: ' + str(request))
     print('data: ' + str(data))
-    print('text: ' + request.args)
-    print('url: ' + request.url)
+    print('text: ' + str(request.args))
+    print('url: ' + str(request.url))
     
 
     if data['object'] == 'page':
