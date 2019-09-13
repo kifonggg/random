@@ -50,9 +50,8 @@ def webhook():
                             message_text = messaging_event['message']['text']
                             user_info = bot.get_user_info(sender_id, ['name'])
 
-                            #PX = Professor_X(message_text)
-                            memory = 0 
-                            #reply_json = PX.get_reply()
+                            PX = Professor_X(message_text.strip())
+                            reply_json = PX.get_reply()
 
 
                             send_result = reply_message(recipient_id = thread_id, content = reply_json, message_type = 'thread')                
