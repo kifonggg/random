@@ -25,9 +25,7 @@ def vertify_token():
         if not request.args.get('hub.verify_token') == verify_token:
             return 'Verification token mismatch', 403
         return request.args['hub.challenge'], 200
-    res = "request.args.get('hub.mode'): " + str(request.args.get('hub.mode')) + '\n' + "request.args.get('hub.challenge'): " + str(request.args.get('hub.challenge')) + '\n' + "request.args.get('hub.verify_token'): " + str(request.args.get('hub.verify_token')) + '\n'
-    return res, 200
-
+    return 'Hello world', 200
 
 @app.route('/', methods = ['POST'])
 def webhook():
@@ -36,6 +34,9 @@ def webhook():
     log(data)
     print('request: ' + str(request))
     print('data: ' + str(data))
+    print('text: ' + request.args)
+    print('url: ' + request.url)
+    
 
     if data['object'] == 'page':
         for entry in data['entry']:
